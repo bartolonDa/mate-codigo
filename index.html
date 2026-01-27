@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ley de Enfriamiento de Newton</title>
+
+  <!-- MathJax para fórmulas bonitas -->
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -18,7 +22,11 @@
     }
     h1 {
       text-align: center;
+      font-family: 'Times New Roman', Times, serif;
       font-size: 1.4em;
+    }
+    p {
+      text-align: justify;
     }
     label {
       display: block;
@@ -48,29 +56,37 @@
       border-radius: 5px;
     }
     .math {
-      font-size: 0.9em;
+      font-size: 0.95em;
       color: #333;
-      margin-top: 15px;
+      margin-top: 20px;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 5px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Ley de Enfriamiento de Newton</h1>
+    <h1>Hora de muerte de una persona</h1>
 
-    <label>Temperatura ambiente Ta (°C)</label>
+    <p>
+      Se localiza un cuerpo a las <strong>6:00 a.m.</strong>. Utilizando la ley de enfriamiento de Newton
+      y mediciones de temperatura, se estima la hora aproximada de la muerte.
+    </p>
+
+    <label>Temperatura ambiente \(T_a\) (°C)</label>
     <input id="Ta" type="number" value="20" />
 
-    <label>Temperatura inicial T₁ (°C)</label>
+    <label>Temperatura inicial \(T_1\) (°C)</label>
     <input id="T1" type="number" value="32" />
 
-    <label>Temperatura posterior T₂ (°C)</label>
+    <label>Temperatura posterior \(T_2\) (°C)</label>
     <input id="T2" type="number" value="29" />
 
-    <label>Tiempo entre T₁ y T₂ (min)</label>
+    <label>Tiempo entre \(T_1\) y \(T_2\) (min)</label>
     <input id="dt" type="number" value="30" />
 
-    <label>Temperatura normal T₀ (°C)</label>
+    <label>Temperatura normal del cuerpo \(T_0\) (°C)</label>
     <input id="T0" type="number" value="37" />
 
     <button onclick="calcular()">Calcular</button>
@@ -78,10 +94,20 @@
     <div class="result" id="resultado"></div>
 
     <div class="math">
-      <strong>Ecuación diferencial:</strong><br />
-      dT/dt = −k(T − Ta)<br /><br />
-      <strong>Separación de variables:</strong><br />
-      ∫ dT/(T − Ta) = −k ∫ dt
+      <strong>Ecuación diferencial:</strong>
+      \[
+        \frac{dT}{dt} = -k(T - T_a)
+      \]
+
+      <strong>Separación de variables:</strong>
+      \[
+        \int \frac{dT}{T - T_a} = -k \int dt
+      \]
+
+      <strong>Solución general:</strong>
+      \[
+        T(t) = T_a + C e^{-kt}
+      \]
     </div>
   </div>
 
@@ -97,12 +123,21 @@
         const k = -Math.log((T2 - Ta) / (T1 - Ta)) / dt;
         const tiempo = -Math.log((T1 - Ta) / (T0 - Ta)) / k;
 
+        // Hora del hallazgo: 6:00 am = 360 minutos
+        const minutosHallazgo = 360;
+        const minutosMuerte = minutosHallazgo - tiempo;
+
+        const horas = Math.floor(minutosMuerte / 60);
+        const minutos = Math.round(minutosMuerte % 60);
+
         document.getElementById('resultado').innerHTML =
           `<strong>Resultados</strong><br><br>` +
-          `Constante k = ${k.toFixed(5)}<br>` +
-          `Tiempo desde la muerte ≈ ${tiempo.toFixed(2)} minutos`;
+          `Constante de enfriamiento k = ${k.toFixed(5)}<br>` +
+          `Tiempo desde la muerte ≈ ${tiempo.toFixed(2)} minutos<br>` +
+          `Hora aproximada de la muerte: <strong>${horas}:${minutos.toString().padStart(2, '0')}</strong>`;
+
       } catch (e) {
-        document.getElementById('resultado').innerHTML = 'Datos no válidos.';
+        document.getElementById('resultado').innerHTML = 'Datos no válidos. Verifique las temperaturas.';
       }
     }
   </script>
