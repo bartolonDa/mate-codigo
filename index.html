@@ -86,8 +86,11 @@
     <label>Tiempo entre \(T_1\) y \(T_2\) (min)</label>
     <input id="dt" type="number" value="30" />
 
-    <label>Temperatura normal del cuerpo \(T_0\) (°C)</label>
+    <label>Temperatura normal del cuerpo \\(T_0\\) (°C)</label>
     <input id="T0" type="number" value="37" />
+
+    <label>Hora del hallazgo (hh:mm)</label>
+    <input id="horaHallazgo" type="time" value="06:00" />
 
     <button onclick="calcular()">Calcular</button>
 
@@ -123,8 +126,11 @@
         const k = -Math.log((T2 - Ta) / (T1 - Ta)) / dt;
         const tiempo = -Math.log((T1 - Ta) / (T0 - Ta)) / k;
 
-        // Hora del hallazgo: 6:00 am = 360 minutos
-        const minutosHallazgo = 360;
+        // Hora del hallazgo ingresada por el usuario
+        const horaInput = document.getElementById('horaHallazgo').value;
+        const [hHall, mHall] = horaInput.split(':').map(Number);
+        const minutosHallazgo = hHall * 60 + mHall;
+
         const minutosMuerte = minutosHallazgo - tiempo;
 
         const horas = Math.floor(minutosMuerte / 60);
