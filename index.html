@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ley de Enfriamiento de Newton</title>
 
-  <!-- MathJax para fórmulas bonitas -->
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
@@ -126,7 +125,6 @@
         const k = -Math.log((T2 - Ta) / (T1 - Ta)) / dt;
         const tiempo = -Math.log((T1 - Ta) / (T0 - Ta)) / k;
 
-        // Hora del hallazgo ingresada por el usuario
         const horaInput = document.getElementById('horaHallazgo').value;
         const [hHall, mHall] = horaInput.split(':').map(Number);
         const minutosHallazgo = hHall * 60 + mHall;
@@ -149,4 +147,5 @@
   </script>
 </body>
 </html>
+
 
